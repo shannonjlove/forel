@@ -25,9 +25,12 @@ NC='\033[0m' # No Color
 # Configuration
 VERBOSE=${VERBOSE:-0}
 INSTALL_DIR="${INSTALL_DIR:-${HOME}/.local/bin}"
-LOG_FILE="${LOG_FILE:-/tmp/claude-code-install.log}"
+LOG_FILE="${LOG_FILE:-${HOME}/.claude-code-install.log}"
 MIN_NODE_VERSION="18.0.0"
 MIN_NPM_VERSION="9.0.0"
+
+# Ensure log file is writable
+touch "$LOG_FILE" 2>/dev/null || LOG_FILE="/dev/null"
 
 ###############################################################################
 # Utility Functions

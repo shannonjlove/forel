@@ -13,9 +13,8 @@ BOOKSTACK_URL="${BOOKSTACK_URL:-https://bookstack.shannonjlove.cloud}"
 TOKEN_ID="${BOOKSTACK_TOKEN_ID:-0GfibwREHLX4Li8eXoPrARcIkZJjs9n1}"
 TOKEN_SECRET="${BOOKSTACK_TOKEN_SECRET:-5UCfFgn4GlRIIl65VaGUF6Nr8i6s4JRi}"
 
-# BookStack destination (071019 in SYSTEM AUTOMATION > BookStack Configuration)
-BOOK_ID="71"  # Will be fetched dynamically
-CHAPTER_ID="71"  # Will be fetched dynamically
+# BookStack destination
+BOOK_ID="${BOOKSTACK_BOOK_ID:-1357}"  # Automation Tools book
 PAGE_TITLE="Page Template Library"
 PAGE_SLUG="page-template-library"
 
@@ -25,7 +24,6 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 echo ""
 echo "Target: $BOOKSTACK_URL"
 echo "Book ID: $BOOK_ID"
-echo "Chapter ID: $CHAPTER_ID"
 echo ""
 
 # Find template content
@@ -68,7 +66,6 @@ API_ENDPOINT="$BOOKSTACK_URL/api/pages"
 PAGE_PAYLOAD=$(cat <<EOF
 {
   "book_id": $BOOK_ID,
-  "chapter_id": $CHAPTER_ID,
   "name": "$PAGE_TITLE",
   "markdown": $(echo "$TEMPLATE_CONTENT" | jq -R -s .)
 }

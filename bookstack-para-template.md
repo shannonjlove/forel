@@ -106,6 +106,16 @@ Status: [not synced | synced | pending]
 Last Sync: [YYYY-MM-DD]
 ```
 
+### Paperless Integration
+```
+Document Management & Archive:
+- https://docs.shannonjlove.cloud/documents/[DOC_ID]
+- paperless://document/[PPPPPP]
+
+Status: [not archived | indexed | pending]
+Last Sync: [YYYY-MM-DD]
+```
+
 ---
 
 ## Navigation Structure
@@ -198,6 +208,7 @@ Retire to: **[050000]** → **[051000]** → **[051010]** [Archive Chapter]
 #raindrop-linked:yes
 #ticktick-linked:no
 #apple-notes-linked:no
+#paperless-linked:no
 #last-sync:2026-07-03
 ```
 
@@ -210,6 +221,7 @@ Retire to: **[050000]** → **[051000]** → **[051010]** [Archive Chapter]
 ← [PPPPPP-1] Previous | [PPPPPP00] Index | [PPPPPP+1] Next →
 Related: [PPPPPP+10] [PPPPPP+20] [PPPPPP-10]
 Craft: craft://doc/[DOCID] | Raindrop: [collection] | TickTick: [project]
+Notes: notes://note/[DOCID] | Paperless: [DOC_ID]
 Archive Target: [051010] | Last Updated: 2026-07-03 by [Name]
 └─────────────────────────────────────────────────────┘
 ```

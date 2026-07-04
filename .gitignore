@@ -1,22 +1,44 @@
-# SwiftPM
-.build/
-.swiftpm/
-DerivedData/
-*.xcuserstate
-*.xcodeproj
-*.xcworkspace
+# Environment variables (never commit secrets)
+.env
+.env.local
+.env.*.local
 
-# Local editor state
-.DS_Store
-.vscode/*
-!.vscode/launch.json
-
-# Local workspace leftovers
-dist/
+# Node modules
 node_modules/
-.pnpm-store/
-.vite/
-.vscode
-plans/
+package-lock.json
+yarn.lock
 
-.claude/worktrees
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+logs/
+/var/log/
+
+# Runtime
+.cache/
+*.pid
+.tmp/
+
+# Sensitive files
+*.key
+*.pem
+secrets.json
+credentials.json
+
+# Build artifacts
+dist/
+build/
+*.o
+*.so
+
+# Temporary files
+*.bak
+*.swp
+~*

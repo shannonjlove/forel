@@ -1,0 +1,92 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - main
+      - claude/podlet-vps-install-*
+    paths:
+      - 'containers/**'
+      - 'scripts/**'
+      - 'config/**'
+      - '.github/workflows/deploy.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate Quadlet files
+        run: |
+          for file in containers/*.container containers/*.network containers/*.volume; do
+            if [ -f "$file" ]; then
+              echo "Checking $file..."
+              # Basic validation: file exists and has [Unit] section
+              if ! grep -q "^\[Unit\]" "$file"; then
+                echo "ERROR: $file missing [Unit] section"
+                exit 1
+              fi
+            fi
+          done
+
+      - name: Validate shell scripts
+        run: |
+          for script in scripts/*.sh; do
+            if [ -f "$script" ]; then
+              echo "Checking $script..."
+              bash -n "$script" || exit 1
+            fi
+          done
+
+      - name: Validate JSON config
+        run: |
+          for json in config/*.json .env.example; do
+            if [ -f "$json" ] && [[ "$json" == *.json ]]; then
+              echo "Checking $json..."
+              jq empty "$json" || exit 1
+            fi
+          done
+
+  deploy:
+    needs: validate
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to VPS
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$DEPLOY_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
+
+          # Deploy files
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/deploy_key" \
+            containers/ systemd/ scripts/ config/ \
+            "$DEPLOY_USER@$DEPLOY_HOST:/srv/sjl/vps-deployment/"
+
+          # Reload services
+          ssh -i ~/.ssh/deploy_key \
+            "$DEPLOY_USER@$DEPLOY_HOST" \
+            "sudo /srv/sjl/vps-deployment/scripts/refresh-all.sh"
+
+  notify:
+    needs: deploy
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Notify deployment status
+        run: |
+          if [ "${{ needs.deploy.result }}" == "success" ]; then
+            echo "✓ Deployment successful"
+          else
+            echo "✗ Deployment failed"
+            exit 1
+          fi

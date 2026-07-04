@@ -1,0 +1,21 @@
+# Example Quadlet Container Definition
+# Reference: https://docs.podman.io/en/latest/markdown/podman-systemd.unit.5.html
+#
+# To use: Copy this file and rename to your-service-name.container
+# Then run: systemctl daemon-reload && systemctl start podman-your-service-name
+
+[Unit]
+Description=Example Podlet Container
+After=network-online.target
+Wants=network-online.target
+
+[Container]
+Image=alpine:latest
+ContainerName=example-container
+Exec=sleep infinity
+Environment=LOG_LEVEL=info
+# Mount config: Type=bind,Source=/etc/config,Destination=/etc/config
+# Port mapping: PublishPort=127.0.0.1:8080:8080
+
+[Install]
+WantedBy=multi-user.target default.target

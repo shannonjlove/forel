@@ -1,6 +1,6 @@
 # VPS Deployment & Podlet Management
 
-Infrastructure-as-code and container orchestration for Linux VPS deployments using Podman and Quadlet.
+Modern Linux container orchestration and infrastructure-as-code for VPS deployments using Podman, Quadlet, and systemd.
 
 ## Project Structure
 

@@ -28,14 +28,27 @@ echo "Book ID: $BOOK_ID"
 echo "Chapter ID: $CHAPTER_ID"
 echo ""
 
-# Read template content
-if [[ ! -f "bookstack-para-template.md" ]]; then
-    echo "❌ Error: bookstack-para-template.md not found in current directory"
+# Find template content
+# Accept template path as first argument, or search common locations
+TEMPLATE_PATH="${1:-bookstack-para-template.md}"
+
+# If not found, try root
+if [[ ! -f "$TEMPLATE_PATH" ]] && [[ -f "/bookstack-para-template.md" ]]; then
+    TEMPLATE_PATH="/bookstack-para-template.md"
+fi
+
+# If still not found, try current directory fallback
+if [[ ! -f "$TEMPLATE_PATH" ]]; then
+    echo "❌ Error: Template file not found"
+    echo "   Searched: $1, /bookstack-para-template.md, bookstack-para-template.md"
+    echo ""
+    echo "Usage: $0 [path/to/template.md]"
+    echo "Example: $0 /bookstack-para-template.md"
     exit 1
 fi
 
-TEMPLATE_CONTENT=$(cat bookstack-para-template.md)
-echo "✓ Template loaded ($(wc -l < bookstack-para-template.md) lines)"
+TEMPLATE_CONTENT=$(cat "$TEMPLATE_PATH")
+echo "✓ Template loaded from: $TEMPLATE_PATH ($(wc -l < "$TEMPLATE_PATH") lines)"
 echo ""
 
 # Get CSRF token

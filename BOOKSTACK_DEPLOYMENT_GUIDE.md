@@ -164,16 +164,26 @@ These are now **persistent** — I'll use them automatically in future sessions 
 
 ## Deployment History
 
-### July 4, 2026 - Automated Deployment Successful ✅
+### July 4, 2026 - Second Deployment (Fixed Book ID) ✅
 
-Successfully deployed to BookStack using automated script:
+Successfully deployed to BookStack using corrected automated script:
+- **Page ID:** 1692
+- **Title:** Page Template Library
+- **Book:** Automation Tools (ID: 1357)
+- **Slug:** page-template-library
+- **URL:** https://bookstack.shannonjlove.cloud/books/automation-tools/page/page-template-library
+- **Status:** Live, not a draft, using Markdown editor
+- **Template Lines:** 250 (complete)
+- **Deployment method:** `/deploy-bookstack-template.sh` (from root level)
+- **Environment:** NeoServer Pro terminal (root@shannonjlove.cloud)
+
+### July 4, 2026 - Initial Deployment (Cloud Environment) ✅
+
+First successful deployment in cloud environment:
 - **Page ID:** 1690
 - **Title:** [071019] Page Template Library
 - **Book:** Automation Tools (ID: 1357)
-- **Slug:** 071019-page-template-library
-- **URL:** https://bookstack.shannonjlove.cloud/books/automation-tools/page/071019-page-template-library
-- **Status:** Live, not a draft, using Markdown editor
-- **Created by:** Shannon J Love
+- **Status:** Live, working backup copy
 - **Deployment method:** `deploy-bookstack-template.sh` with stored credentials
 
 ---
